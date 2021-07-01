@@ -1,0 +1,60 @@
+.game {
+  text-align: center;
+  background-color: none;
+}
+
+img {
+  border: 5px solid white;
+}
+
+.game-header {
+  background-color: #222;
+  height: 50px;
+  padding: 20px;
+  color: white;
+}
+
+.game-title {
+  font-size: 1.5em;
+}
+
+.game-status {
+  padding: 20px;
+  white-space: pre;
+}
+
+.game-button {
+  font-size: 1.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  border-radius: 5px;
+}
+
+.tile-container {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-gap: 0px;
+}
+
+.tile {
+  outline: 1px solid white;
+  outline-offset: -1px;
+
+  overflow: hidden;
+  background-size: auto 400px;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.tile-wrapper {
+  position: relative;
+  margin: auto;
+  width: 400px;
+
+}
+
+.selected {
+  outline: 3px solid green;
+  outline-offset: -6px;
+}
