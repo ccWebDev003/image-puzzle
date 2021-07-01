@@ -34,8 +34,8 @@ export function shuffleTileSet(tiles) {
 }
 
 export function swapTilesInSet(tiles, id1, id2) {
-    let source = tiles.find(t => t.id === id1);
-    let dest = tiles.find(t => t.id === id2);
+    let source = Object.assign({}, tiles.find(t => t.id === id1));
+    let dest = Object.assign({}, tiles.find(t => t.id === id2));
     let sourcePos = source.pos;
     source.pos = dest.pos;
     source.selected = false;
