@@ -19,6 +19,7 @@ class Game extends Component {
             gameComplete={this.props.gameComplete}
             turnNo={this.props.turnNo}
             onInitGame={this.props.onInitGame}
+            numClicksWithinTurn={this.props.numClicksWithinTurn}
         />;
 
         return (
@@ -44,6 +45,7 @@ class Game extends Component {
 
 const mapStateToProps = state => {
     return {
+        numClicksWithinTurn: state.numClicksWithinTurn,
         turnNo: state.turnNo,
         imageNumber: state.imageNumber,
         gameComplete: state.gameComplete,

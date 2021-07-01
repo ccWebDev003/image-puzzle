@@ -3,14 +3,23 @@
   background-color: none;
 }
 
-img {
-  border: 5px solid white;
+.game-instructions {
+    font-style: italic;
+    font-size: 1.2em;
+    width: 400px;
+    height: 50px;
+    margin: 0 auto;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
+    word-wrap: break-word;      /* IE */
 }
 
 .game-header {
   background-color: #222;
   height: 50px;
-  padding: 20px;
+  padding: 10px;
   color: white;
 }
 
@@ -55,6 +64,7 @@ img {
 }
 
 .selected {
-  outline: 3px solid green;
+  outline: 5px solid green;
+  opacity: 0.5;
   outline-offset: -6px;
 }

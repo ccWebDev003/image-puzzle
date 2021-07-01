@@ -8,7 +8,19 @@ function GameStatusView(props) {
     } else {
         return <>
             <div>
-                Turn: {props.turnNo}
+                Turn: <b>{props.turnNo}</b>
+                <div className='game-instructions'>
+                    {props.numClicksWithinTurn === 0 &&
+                        <div>
+                            Click on the tile that should be moved
+                        </div>
+                    }
+                    {props.numClicksWithinTurn === 1 &&
+                        <div>
+                            Click on the tile that should be swapped with the first selected tile
+                        </div>
+                    }
+                </div>
             </div>
         </>;
     }
