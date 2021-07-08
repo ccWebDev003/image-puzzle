@@ -1,13 +1,13 @@
-import { createStore } from 'redux'
-import tileGame from './reducers'
+import { createStore } from 'redux';
+import tileGame from './tile-game-reducer';
 import { initGame, reverseTiles, selectTile } from './actions';
 
 //
-// With an unshuffled tile set, the id and position of a tile are identical
+// With an unshuffled tile set, the id and position/index of a tile are identical
 //
 test('InitGame should create correct state', () => {
     const store = createStore(tileGame);
-    store.dispatch(initGame(1));
+    store.dispatch(initGame(1, 4));
     const state = store.getState();
     expect(state.tiles.length).toBe(16);
     expect(state.imageNumber).toBe(1);
@@ -16,7 +16,7 @@ test('InitGame should create correct state', () => {
 
 test('Tile should be marked as selected', () => {
     const store = createStore(tileGame);
-    store.dispatch(initGame(1));
+    store.dispatch(initGame(1, 3));
 
     expect(store.getState().tiles[0].selected).toBeFalsy();
 
@@ -26,7 +26,7 @@ test('Tile should be marked as selected', () => {
 
 test('Selecting two tiles should swap their position', () => {
     const store = createStore(tileGame);
-    store.dispatch(initGame(1));
+    store.dispatch(initGame(1, 4));
 
     // Use a non-random shuffle
     store.dispatch(reverseTiles());
@@ -41,7 +41,7 @@ test('Selecting two tiles should swap their position', () => {
 
 test('Should reach game complete', () => {
     const store = createStore(tileGame);
-    store.dispatch(initGame(1));
+    store.dispatch(initGame(1, 4));
 
     // Use a non-random shuffle
     store.dispatch(reverseTiles());
