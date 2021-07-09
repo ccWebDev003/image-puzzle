@@ -14,4 +14,4 @@
     
 ![Alt text](https://github.com/LarsBergqvist/image-puzzle/blob/main/screenshot.png?raw=true 'Image puzzle')
 
-![Alt text](https://github.com/LarsBergqvist/image-puzzel/blob/main/image-puzzle.gif?raw=true 'Image puzzle animation')
+![Alt text](https://github.com/LarsBergqvist/image-puzzle/blob/main/image-puzzle.gif?raw=true 'Image puzzle animation')
