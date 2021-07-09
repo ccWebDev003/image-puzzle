@@ -18,10 +18,10 @@ test('Tile should be marked as selected', () => {
     const store = createStore(tileGame);
     store.dispatch(initGame(1, 3));
 
-    expect(store.getState().tiles[0].selected).toBeFalsy();
+    expect(store.getState().selectedId).toBeFalsy();
 
     store.dispatch(selectTile(0));
-    expect(store.getState().tiles[0].selected).toBeTruthy();
+    expect(store.getState().selectedId).toBe(0);
 });
 
 test('Selecting two tiles should swap their position', () => {

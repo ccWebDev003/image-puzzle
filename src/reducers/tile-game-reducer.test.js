@@ -36,7 +36,6 @@ test('Reducers should not mutate data', () => {
     const newState3 = tileGame(newState2, action3);
     expect(newState3.tiles[0].id).toBe(15);
     expect(newState3.selectedId).toBe(15);
-    expect(newState3.tiles[0].selected).toBeTruthy();
 
     //
     // Select the second tile (id = 14)
@@ -47,7 +46,5 @@ test('Reducers should not mutate data', () => {
     const action4 = { type: SELECT_TILE, id: 14 };
     const newState4 = tileGame(newState3, action4);
     expect(newState4.tiles[0].id).toBe(14);
-    expect(newState4.tiles[0].selected).toBeFalsy();
     expect(newState4.tiles[1].id).toBe(15);
-    expect(newState4.tiles[1].selected).toBeFalsy();
 });

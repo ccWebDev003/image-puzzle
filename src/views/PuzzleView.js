@@ -27,7 +27,7 @@ const Puzzle = (props) => {
                                 onClick={props.onTileClicked}
                                 tileWidth={tileWidth}
                                 size={props.size}
-                                selected={t.selected}
+                                selected={props.selectedId === t.id}
                             />)
                     }
                 </div>
@@ -40,14 +40,16 @@ Puzzle.propTypes = {
     onTileClicked: PropTypes.func,
     size: PropTypes.number,
     tiles: PropTypes.array,
-    imageNumber: PropTypes.number
+    imageNumber: PropTypes.number,
+    selectedId: PropTypes.number
 };
 
 const mapStateToProps = state => {
     return {
-        imageNumber: state.imageNumber,
-        tiles: state.tiles,
         size: state.size,
+        tiles: state.tiles,
+        imageNumber: state.imageNumber,
+        selectedId: state.selectedId
     }
 }
 

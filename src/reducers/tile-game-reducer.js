@@ -46,13 +46,7 @@ function tileGame(state = initialState, action) {
             const numClicks = state.numClicksWithinTurn + 1;
 
             if (numClicks === 1) {
-                const newTiles = state.tiles.map((tile) => {
-                    if (action.id === tile.id) {
-                        return Object.assign({}, tile, { selected: true });
-                    }
-                    return tile;
-                });
-
+                const newTiles = state.tiles.map(t => t);
                 return Object.assign({}, state, {
                     selectedId: action.id,
                     numClicksWithinTurn: numClicks,
@@ -60,7 +54,7 @@ function tileGame(state = initialState, action) {
                     tiles: newTiles
                 });
             } else if (numClicks === 2) {
-                const newTiles = state.tiles.map(t => Object.assign({}, t, { selected: false }));
+                const newTiles = state.tiles.map(t => t);
                 if (action.id === state.selectedId) {
                     return Object.assign({}, state, {
                         numClicksWithinTurn: 0,
@@ -70,6 +64,7 @@ function tileGame(state = initialState, action) {
                 const setWithSwappedTiles = swapTilesInSet(newTiles, state.selectedId, action.id);
 
                 return Object.assign({}, state, {
+                    selectedId: undefined,
                     numClicksWithinTurn: 0,
                     gameComplete: allTilesAreAligned(setWithSwappedTiles),
                     turnNo: state.turnNo + 1,
