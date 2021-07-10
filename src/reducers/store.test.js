@@ -24,7 +24,7 @@ test('Tile should be marked as selected', () => {
     expect(store.getState().selectedId).toBe(0);
 });
 
-test('Selecting id outside bound should not affect state', () => {
+test('Selecting tile with id outside bounds should not affect state', () => {
     const store = createStore(tileGame);
     store.dispatch(initGame(1, 3));
 
