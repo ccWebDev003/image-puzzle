@@ -43,8 +43,10 @@ function tileGame(state = initialState, action) {
             if (state.gameComplete) {
                 return state;
             }
+            if (action.id < 0 || action.id > (state.size * state.size - 1)) {
+                return state;
+            }
             const numClicks = state.numClicksWithinTurn + 1;
-
             if (numClicks === 1) {
                 const newTiles = state.tiles.map(t => t);
                 return Object.assign({}, state, {
@@ -57,6 +59,7 @@ function tileGame(state = initialState, action) {
                 const newTiles = state.tiles.map(t => t);
                 if (action.id === state.selectedId) {
                     return Object.assign({}, state, {
+                        selectedId: undefined,
                         numClicksWithinTurn: 0,
                         tiles: newTiles
                     });

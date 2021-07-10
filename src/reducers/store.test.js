@@ -18,11 +18,40 @@ test('Tile should be marked as selected', () => {
     const store = createStore(tileGame);
     store.dispatch(initGame(1, 3));
 
-    expect(store.getState().selectedId).toBeFalsy();
+    expect(store.getState().selectedId).toBeUndefined();
 
     store.dispatch(selectTile(0));
     expect(store.getState().selectedId).toBe(0);
 });
+
+test('Selecting id outside bound should not affect state', () => {
+    const store = createStore(tileGame);
+    store.dispatch(initGame(1, 3));
+
+    const startState = store.getState();
+
+    store.dispatch(selectTile(-1));
+    expect(JSON.stringify(startState) === JSON.stringify(store.getState())).toBeTruthy();
+
+    store.dispatch(selectTile(3 * 3));
+    expect(JSON.stringify(startState) === JSON.stringify(store.getState())).toBeTruthy();
+});
+
+test('Tile should be unselected if clicked twice', () => {
+    const store = createStore(tileGame);
+    store.dispatch(initGame(1, 3));
+    // Use a non-random shuffle
+    store.dispatch(reverseTiles());
+
+    expect(store.getState().selectedId).toBeUndefined();
+
+    store.dispatch(selectTile(5));
+    expect(store.getState().selectedId).toBe(5);
+
+    store.dispatch(selectTile(5));
+    expect(store.getState().selectedId).toBeUndefined();
+});
+
 
 test('Selecting two tiles should swap their position', () => {
     const store = createStore(tileGame);
