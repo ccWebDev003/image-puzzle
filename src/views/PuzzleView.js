@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { PuzzleWidth } from '../constants';
 import TileView from './TileView'
 import { selectTile } from '../reducers/actions';
 import PropTypes from 'prop-types';
 
 const Puzzle = (props) => {
-    const tileWidth = PuzzleWidth / props.size;
+    const width = window.innerWidth;
+    const tileWidth = width / props.size;
     const tileWrapperStyle = {
         width: `${props.size * tileWidth}px`
     }
@@ -28,6 +28,7 @@ const Puzzle = (props) => {
                                 tileWidth={tileWidth}
                                 size={props.size}
                                 selected={props.selectedId === t.id}
+                                width={width}
                             />)
                     }
                 </div>

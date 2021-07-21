@@ -11,6 +11,7 @@ function TileView(props) {
     let style = {
         backgroundPosition: `left ${left}px top ${top}px`,
         backgroundImage: `url('${imPath}')`,
+        backgroundSize: `${props.width}px`
     }
 
     if (props.correctPos) {
@@ -40,7 +41,8 @@ TileView.propTypes = {
     selected: PropTypes.bool,
     correctPos: PropTypes.bool,
     imageNumber: PropTypes.number,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    width: PropTypes.number
 };
 
 export default TileView;
