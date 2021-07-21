@@ -1,10 +1,9 @@
+import { gameConfigs } from '../game-configs';
 import {
-    SHUFFLE_TILES,
-    INIT_GAME,
-    SELECT_TILE,
-    REVERSE_TILES,
+    HIGHSCORE_LIST_LOADED, HIGHSCORE_LIST_SAVED, INIT_GAME, NAME_CHANGED, REVERSE_TILES, SELECT_TILE, SHUFFLE_TILES
 } from './actions';
-import { generateTileSet, shuffleTileSet, swapTilesInSet, allTilesAreAligned, reverseTileSet } from './tileset-functions';
+import { allTilesAreAligned, generateTileSet, reverseTileSet, shuffleTileSet, swapTilesInSet, getIndexInHighScoreList } from './tileset-functions';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     turnNo: 1,
@@ -13,7 +12,14 @@ const initialState = {
     gameComplete: false,
     imageNumber: 1,
     tiles: [],
-    size: undefined  // number of rows/columns in the puzzle matrix
+    size: undefined,  // number of rows/columns in the puzzle matrix
+    gameId: undefined,
+    gameName: undefined,
+    highScoreList: undefined,
+    highScorePosition: -1,
+    userName: undefined,
+    userId: undefined,
+    highScoreListSaved: false
 };
 
 
@@ -31,11 +37,15 @@ const initialState = {
 function tileGame(state = initialState, action) {
     switch (action.type) {
         case INIT_GAME: {
+            const size = gameConfigs[action.gameId].size
             return Object.assign({}, initialState,
                 {
+                    gameId: action.gameId,
+                    size,
+                    gameName: gameConfigs[action.gameId].name,
                     imageNumber: action.imageNumber,
-                    tiles: generateTileSet(action.size),
-                    size: action.size
+                    tiles: generateTileSet(size),
+                    highScoreListId: gameConfigs[action.gameId].highscorelistid
                 });
         }
 
@@ -52,30 +62,56 @@ function tileGame(state = initialState, action) {
                 return Object.assign({}, state, {
                     selectedId: action.id,
                     numClicksWithinTurn: numClicks,
-                    gameComplete: allTilesAreAligned(newTiles),
+                    gameComplete: false,
                     tiles: newTiles
                 });
-            } else if (numClicks === 2) {
-                const newTiles = state.tiles.map(t => t);
-                if (action.id === state.selectedId) {
-                    return Object.assign({}, state, {
-                        selectedId: undefined,
-                        numClicksWithinTurn: 0,
-                        tiles: newTiles
-                    });
-                }
-                const setWithSwappedTiles = swapTilesInSet(newTiles, state.selectedId, action.id);
+            }
 
+            const newTiles = state.tiles.map(t => t);
+            if (action.id === state.selectedId) {
                 return Object.assign({}, state, {
                     selectedId: undefined,
                     numClicksWithinTurn: 0,
-                    gameComplete: allTilesAreAligned(setWithSwappedTiles),
-                    turnNo: state.turnNo + 1,
-                    tiles: setWithSwappedTiles
+                    tiles: newTiles
                 });
-            } else {
-                return state;
             }
+            const setWithSwappedTiles = swapTilesInSet(newTiles, state.selectedId, action.id);
+            const gameComplete = allTilesAreAligned(setWithSwappedTiles);
+
+            if (gameComplete && state.highScoreList) {
+                const newUserId = uuidv4();
+                const time = Date.now();
+                const idxInHighScoreList = getIndexInHighScoreList(newUserId, time, state.turnNo + 1, state.highScoreList);
+                if (idxInHighScoreList > -1) {
+                    // User made it into the leaderboard
+                    return Object.assign({}, state, {
+                        selectedId: undefined,
+                        numClicksWithinTurn: 0,
+                        gameComplete,
+                        turnNo: state.turnNo + 1,
+                        tiles: setWithSwappedTiles,
+                        highScorePosition: idxInHighScoreList + 1,
+                        userId: newUserId
+                    });
+                } else {
+                    // User dit not make it into the leaderboard
+                    return Object.assign({}, state, {
+                        selectedId: undefined,
+                        numClicksWithinTurn: 0,
+                        gameComplete,
+                        turnNo: state.turnNo + 1,
+                        tiles: setWithSwappedTiles,
+                        highScorePosition: idxInHighScoreList + 1
+                    });
+                }
+            }
+            return Object.assign({}, state, {
+                selectedId: undefined,
+                numClicksWithinTurn: 0,
+                gameComplete,
+                turnNo: state.turnNo + 1,
+                tiles: setWithSwappedTiles
+            });
         }
 
         case SHUFFLE_TILES: {
@@ -88,6 +124,22 @@ function tileGame(state = initialState, action) {
             return Object.assign({}, state, { tiles: newTiles });
         }
 
+        case HIGHSCORE_LIST_LOADED: {
+            return Object.assign({}, state, {
+                highScoreList: action.highScoreList
+            });
+        }
+        case NAME_CHANGED: {
+            return Object.assign({}, state, {
+                userName: action.name
+            });
+        }
+        case HIGHSCORE_LIST_SAVED: {
+            return Object.assign({}, state, {
+                highScoreListSaved: true,
+                highScoreList: action.highScoreList
+            });
+        }
         default:
             return state;
     }
