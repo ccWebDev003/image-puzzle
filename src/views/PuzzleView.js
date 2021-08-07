@@ -5,7 +5,8 @@ import { selectTile } from '../reducers/actions';
 import PropTypes from 'prop-types';
 
 const Puzzle = (props) => {
-    const width = Math.min(window.innerWidth, window.innerHeight);
+    const width = Math.min(window.innerWidth, window.innerHeight - 258);
+    console.log(width);
     const tileWidth = width / props.size;
     const tileWrapperStyle = {
         width: `${props.size * tileWidth}px`
