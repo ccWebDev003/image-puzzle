@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 import TileView from './TileView'
 import { selectTile } from '../reducers/actions';
 import PropTypes from 'prop-types';
+import {
+    useWindowSize
+} from '@react-hook/window-size/throttled'
 
 const Puzzle = (props) => {
-    const width = Math.min(window.innerWidth, window.innerHeight - 258);
-    console.log(width);
+    const [winWidth, winHeight] = useWindowSize();
+    const width = Math.max(Math.min(winWidth, winHeight - 258), 200);
     const tileWidth = width / props.size;
     const tileWrapperStyle = {
         width: `${props.size * tileWidth}px`
