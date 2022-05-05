@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -20,11 +20,13 @@ const store = createStore(tileGame, composeEnhancers(
 store.dispatch(initGame(GameId_4x4, Math.floor(Math.random() * NumImages) + 1));
 store.dispatch(shuffleTiles())
 store.dispatch(fetchHighScoreList);
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
     <Provider store={store}>
         <App />
     </Provider>
-    , document.getElementById('root'));
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
